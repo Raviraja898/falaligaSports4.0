@@ -6,7 +6,7 @@ import { Player, Team, AuctionState, AuctionData } from "./src/types";
 import { INITIAL_PLAYERS, INITIAL_TEAMS } from "./src/initialPlayers";
 
 const app = express();
-const PORT = 3000;
+const PORT = 3004;
 const DATA_FILE = path.join(process.cwd(), "data.json");
 const PLAYERS_DIR = path.join(process.cwd(), "public", "players");
 
