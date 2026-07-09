@@ -1,0 +1,6 @@
+{
+  "name": "Falaliga Auction 4.0",
+  "description": "Real-time office bidding tournament application for Falaliga with multi-screen live display, admin controls, team rosters, and custom bidding options.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
