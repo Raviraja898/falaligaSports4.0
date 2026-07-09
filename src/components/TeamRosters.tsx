@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Player, Team } from "../types";
 import { formatChips } from "../utils/csvParser";
-import { Shield, User, Coins, Award, BarChart3, Star, Download } from "lucide-react";
+import { 
+  Shield, User, Coins, Award, BarChart3, Star, Download,
+  ChevronDown, ChevronUp, Users, Activity, Sparkles, TrendingUp
+} from "lucide-react";
 
 interface TeamRostersProps {
   players: Player[];
@@ -10,6 +13,31 @@ interface TeamRostersProps {
 
 export const TeamRosters: React.FC<TeamRostersProps> = ({ players, teams }) => {
   const [selectedTeamId, setSelectedTeamId] = useState<string>(teams[0]?.id || "");
+  const [showDashboard, setShowDashboard] = useState(true);
+
+  // --- OVERALL LEAGUE STATS ---
+  const totalPlayers = players.length;
+  const malePlayers = players.filter((p) => p.gender === "Female" ? false : true).length; // Handle empty/undefined as Male
+  const femalePlayers = players.filter((p) => p.gender === "Female").length;
+
+  const totalSold = players.filter((p) => p.isSold).length;
+  const maleSold = players.filter((p) => p.isSold && p.gender !== "Female").length;
+  const femaleSold = players.filter((p) => p.isSold && p.gender === "Female").length;
+
+  const totalUnsold = players.filter((p) => p.isUnsold).length;
+
+  // Active bidding pool remaining
+  const activeRemaining = players.filter((p) => !p.isSold && !p.isUnsold && !p.isOwnerOrCoOwner).length;
+
+  // Money Metrics
+  const initialTotalPurse = teams.length * 1000000;
+  const totalSpentAllTeams = players.reduce((acc, p) => acc + (p.isSold ? (p.soldAmount || 0) : 0), 0);
+
+  // Ratings metric
+  const soldPlayersWithRatings = players.filter((p) => p.isSold);
+  const averageSoldRating = soldPlayersWithRatings.length > 0 
+    ? Math.round(soldPlayersWithRatings.reduce((acc, p) => acc + p.skillRating, 0) / soldPlayersWithRatings.length)
+    : 0;
 
   const selectedTeam = teams.find((t) => t.id === selectedTeamId);
   const draftedPlayers = players.filter((p) => p.soldTo === selectedTeamId);
@@ -47,6 +75,7 @@ export const TeamRosters: React.FC<TeamRostersProps> = ({ players, teams }) => {
     // Players Header
     csvRows.push([
       "Player Name",
+      "Gender",
       "Role",
       "Overall Skill Rating",
       "Cricket Rating",
@@ -61,6 +90,7 @@ export const TeamRosters: React.FC<TeamRostersProps> = ({ players, teams }) => {
     if (ownerPlayer) {
       csvRows.push([
         ownerPlayer.name,
+        ownerPlayer.gender || "Male",
         ownerPlayer.role || "Owner",
         ownerPlayer.skillRating,
         ownerPlayer.cricket,
@@ -76,6 +106,7 @@ export const TeamRosters: React.FC<TeamRostersProps> = ({ players, teams }) => {
     if (coOwnerPlayer) {
       csvRows.push([
         coOwnerPlayer.name,
+        coOwnerPlayer.gender || "Male",
         coOwnerPlayer.role || "Co-Owner",
         coOwnerPlayer.skillRating,
         coOwnerPlayer.cricket,
@@ -91,6 +122,7 @@ export const TeamRosters: React.FC<TeamRostersProps> = ({ players, teams }) => {
     draftedPlayers.forEach((p) => {
       csvRows.push([
         p.name,
+        p.gender || "Male",
         p.role || "Draft Nominee",
         p.skillRating,
         p.cricket,
@@ -116,6 +148,164 @@ export const TeamRosters: React.FC<TeamRostersProps> = ({ players, teams }) => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 text-slate-800">
       
+      {/* 📊 LEAGUE OVERVIEW & GENDER METRICS DASHBOARD */}
+      <div className="bg-slate-900 text-white rounded-3xl p-6 shadow-2xl border border-slate-800 mb-8 overflow-hidden">
+        <div className="flex justify-between items-center pb-4 border-b border-slate-800 cursor-pointer select-none" onClick={() => setShowDashboard(!showDashboard)}>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+              <BarChart3 className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-lg font-black uppercase tracking-wide">League Overview & Gender Metrics</h2>
+              <p className="text-xs text-slate-400">Real-time breakdown of draft statistics, male/female ratios, and team allocations</p>
+            </div>
+          </div>
+          <button className="p-2 hover:bg-slate-800 rounded-xl transition-all">
+            {showDashboard ? <ChevronUp className="w-5 h-5 text-slate-400" /> : <ChevronDown className="w-5 h-5 text-slate-400" />}
+          </button>
+        </div>
+
+        {showDashboard && (
+          <div className="mt-6 space-y-6">
+            {/* Top Stat Cards Grid */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              
+              {/* Card 1: Roster Gender Balance */}
+              <div className="bg-slate-950/50 border border-slate-800 p-4 rounded-2xl">
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1">DRAFT GENDER BALANCE</span>
+                <div className="flex justify-between items-end mt-1">
+                  <div>
+                    <div className="text-2xl font-black text-white">{totalPlayers} <span className="text-xs font-normal text-slate-400">Total</span></div>
+                    <div className="text-[11px] text-slate-400 mt-0.5 font-mono">
+                      <span>M: <strong className="text-blue-400">{malePlayers}</strong></span>
+                      <span className="mx-1.5">|</span>
+                      <span>F: <strong className="text-pink-400">{femalePlayers}</strong></span>
+                    </div>
+                  </div>
+                  <Users className="w-6 h-6 text-slate-600 mb-1" />
+                </div>
+                {/* Ratio Bar */}
+                <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden mt-3.5 flex">
+                  <div className="bg-blue-500 h-full" style={{ width: `${(malePlayers / (totalPlayers || 1)) * 100}%` }} />
+                  <div className="bg-pink-500 h-full" style={{ width: `${(femalePlayers / (totalPlayers || 1)) * 100}%` }} />
+                </div>
+              </div>
+
+              {/* Card 2: Gender Draft Outcomes */}
+              <div className="bg-slate-950/50 border border-slate-800 p-4 rounded-2xl">
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1">SELECTED BY GENDER</span>
+                <div className="flex justify-between items-end mt-1">
+                  <div>
+                    <div className="text-2xl font-black text-emerald-400">{totalSold} <span className="text-xs font-normal text-slate-400">Selected</span></div>
+                    <div className="text-[11px] text-slate-400 mt-0.5 font-mono">
+                      <span>M: <strong className="text-blue-400">{maleSold}</strong> <span className="text-[9px] text-slate-500">({Math.round((maleSold / (malePlayers || 1)) * 100)}%)</span></span>
+                      <span className="mx-1.5">|</span>
+                      <span>F: <strong className="text-pink-400">{femaleSold}</strong> <span className="text-[9px] text-slate-500">({Math.round((femaleSold / (femalePlayers || 1)) * 100)}%)</span></span>
+                    </div>
+                  </div>
+                  <Sparkles className="w-6 h-6 text-emerald-600 mb-1" />
+                </div>
+                <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden mt-3.5 flex">
+                  <div className="bg-blue-400 h-full" style={{ width: `${(maleSold / (totalSold || 1)) * 100}%` }} />
+                  <div className="bg-pink-400 h-full" style={{ width: `${(femaleSold / (totalSold || 1)) * 100}%` }} />
+                </div>
+              </div>
+
+              {/* Card 3: Budget Consumption */}
+              <div className="bg-slate-950/50 border border-slate-800 p-4 rounded-2xl">
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1">TOTAL LEAGUE PURSE</span>
+                <div className="flex justify-between items-end mt-1">
+                  <div>
+                    <div className="text-lg font-black text-yellow-500 font-mono">{formatChips(totalSpentAllTeams)}</div>
+                    <div className="text-[10px] text-slate-400 mt-1 uppercase tracking-wider">
+                      Spent of {formatChips(initialTotalPurse)} total
+                    </div>
+                  </div>
+                  <Coins className="w-6 h-6 text-yellow-600 mb-1" />
+                </div>
+                <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden mt-3.5">
+                  <div className="bg-yellow-500 h-full transition-all" style={{ width: `${(totalSpentAllTeams / (initialTotalPurse || 1)) * 100}%` }} />
+                </div>
+              </div>
+
+              {/* Card 4: Draft Competitiveness */}
+              <div className="bg-slate-950/50 border border-slate-800 p-4 rounded-2xl">
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1">DRAFT POOL STATUS</span>
+                <div className="flex justify-between items-end mt-1">
+                  <div>
+                    <div className="text-2xl font-black text-blue-400">{activeRemaining} <span className="text-xs font-normal text-slate-400">Available</span></div>
+                    <div className="text-[11px] text-slate-400 mt-0.5 font-mono">
+                      <span>Unsold: <strong className="text-orange-400">{totalUnsold}</strong></span>
+                      <span className="mx-1.5">|</span>
+                      <span>Avg Rating: <strong className="text-indigo-400">★{averageSoldRating}</strong></span>
+                    </div>
+                  </div>
+                  <Activity className="w-6 h-6 text-slate-600 mb-1" />
+                </div>
+                <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden mt-3.5">
+                  <div className="bg-blue-400 h-full" style={{ width: `${(activeRemaining / (totalPlayers || 1)) * 100}%` }} />
+                </div>
+              </div>
+
+            </div>
+
+            {/* Team Roster Metrics Table */}
+            <div className="bg-slate-950/50 rounded-2xl border border-slate-800 overflow-hidden">
+              <div className="px-5 py-4 border-b border-slate-800 bg-slate-950/80 flex justify-between items-center">
+                <h3 className="text-xs font-black uppercase tracking-wider text-slate-300">Team-by-Team Gender & Budget Ledger</h3>
+                <span className="text-[10px] font-mono text-slate-500">8 Teams Configured</span>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse text-xs">
+                  <thead>
+                    <tr className="border-b border-slate-800 text-slate-400 uppercase font-black text-[10px] tracking-wider bg-slate-950/30">
+                      <th className="py-3 px-5">Team Franchise</th>
+                      <th className="py-3 px-4 text-center">Drafted Males</th>
+                      <th className="py-3 px-4 text-center">Drafted Females</th>
+                      <th className="py-3 px-4 text-center">Total Squad</th>
+                      <th className="py-3 px-4 text-right">Total Spent</th>
+                      <th className="py-3 px-5 text-right">Remaining Wallet</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-800 font-mono">
+                    {teams.map((t) => {
+                      const squad = players.filter((p) => p.soldTo === t.id);
+                      const malesCount = squad.filter((p) => p.gender !== "Female").length;
+                      const femalesCount = squad.filter((p) => p.gender === "Female").length;
+                      const spent = squad.reduce((sum, curr) => sum + (curr.soldAmount || 0), 0);
+                      
+                      return (
+                        <tr key={t.id} className="hover:bg-slate-900/30 transition-all">
+                          <td className="py-3.5 px-5 font-sans font-black flex items-center gap-2.5">
+                            <span className="w-3 h-3 rounded-full border border-white/10 shrink-0" style={{ backgroundColor: t.color }} />
+                            <span className="uppercase text-slate-200">{t.name}</span>
+                          </td>
+                          <td className="py-3.5 px-4 text-center font-bold text-blue-400">
+                            {malesCount}
+                          </td>
+                          <td className="py-3.5 px-4 text-center font-bold text-pink-400">
+                            {femalesCount}
+                          </td>
+                          <td className="py-3.5 px-4 text-center font-black text-slate-200 font-sans">
+                            {squad.length} <span className="text-[10px] font-normal text-slate-500 font-mono">players</span>
+                          </td>
+                          <td className="py-3.5 px-4 text-right text-yellow-600 font-bold">
+                            {formatChips(spent)}
+                          </td>
+                          <td className="py-3.5 px-5 text-right text-emerald-500 font-black">
+                            {formatChips(t.budget)}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
       {/* Team Selection Bar */}
       <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-3 mb-8">
         {teams.map((t) => {
@@ -396,10 +586,19 @@ export const TeamRosters: React.FC<TeamRostersProps> = ({ players, teams }) => {
 
                       <div className="flex-1 min-w-0">
                         <div className="flex justify-between items-start gap-1">
-                          <h4 className="font-black text-slate-900 uppercase text-sm truncate">
-                            {p.name}
-                          </h4>
-                          <span className="bg-blue-600 text-white font-black text-[10px] px-1.5 py-0.5 rounded-md">
+                          <div className="truncate">
+                            <h4 className="font-black text-slate-900 uppercase text-sm truncate leading-tight">
+                              {p.name}
+                            </h4>
+                            <span className={`text-[8px] font-black px-1.5 py-0.5 rounded-md uppercase mt-1 inline-block ${
+                              p.gender === "Female" 
+                                ? "bg-pink-150 text-pink-700 border border-pink-200" 
+                                : "bg-slate-100 text-slate-600 border border-slate-200"
+                            }`}>
+                              {p.gender}
+                            </span>
+                          </div>
+                          <span className="bg-blue-600 text-white font-black text-[10px] px-1.5 py-0.5 rounded-md shrink-0">
                             ★ {p.skillRating}
                           </span>
                         </div>

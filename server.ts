@@ -256,6 +256,7 @@ app.post("/api/players", (req, res) => {
     const newPlayer: Player = {
       id: "p_" + Date.now(),
       name: player.name || "Unnamed Player",
+      gender: player.gender || "Male",
       role: player.role || "",
       badminton: Number(player.badminton) || 0,
       carroms: Number(player.carroms) || 0,
@@ -304,6 +305,7 @@ app.post("/api/players", (req, res) => {
       data.players[index] = {
         ...data.players[index],
         name: player.name,
+        gender: player.gender || data.players[index].gender || "Male",
         role: player.role || "",
         badminton: Number(player.badminton) || 0,
         carroms: Number(player.carroms) || 0,
@@ -340,6 +342,7 @@ app.post("/api/players", (req, res) => {
     const uploadedPlayers: Player[] = playersList.map((p, idx) => ({
       id: `p_bulk_${Date.now()}_${idx}`,
       name: p.name || `Player ${idx}`,
+      gender: p.gender || "Male",
       role: p.role || "",
       badminton: Number(p.badminton) || 0,
       carroms: Number(p.carroms) || 0,

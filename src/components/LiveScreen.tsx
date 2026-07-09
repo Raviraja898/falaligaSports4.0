@@ -431,13 +431,13 @@ export const LiveScreen: React.FC<LiveScreenProps> = ({ players, teams, state })
 
         {/* Core Screen Division */}
         {!state.currentBidderId ? (
-          <div className="max-w-4xl w-full mx-auto bg-slate-900/60 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row items-stretch my-auto animate-fade-in">
+          <div className="max-w-7xl w-full mx-auto bg-slate-900/60 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row items-stretch my-auto animate-fade-in">
             {/* Left Column: Player Main Bio */}
             <div className="md:w-1/2 relative bg-gradient-to-b from-blue-950 to-slate-900 p-8 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-slate-800">
               
               {/* Photo Frame */}
               <div className="relative mb-6">
-                <div className="w-72 h-72 md:w-80 md:h-80 rounded-2xl border-4 border-blue-500/50 overflow-hidden bg-slate-855 shadow-2xl flex items-center justify-center">
+                <div className="w-96 h-96 md:w-[480px] md:h-[480px] rounded-2xl border-4 border-blue-500/50 overflow-hidden bg-slate-855 shadow-2xl flex items-center justify-center">
                   {currentPlayer.photoUrl && !imageError[currentPlayer.id] ? (
                     <img
                       src={currentPlayer.photoUrl}
@@ -449,20 +449,21 @@ export const LiveScreen: React.FC<LiveScreenProps> = ({ players, teams, state })
                       }}
                     />
                   ) : (
-                    <User className="w-24 h-24 text-slate-500" />
+                    <User className="w-32 h-32 text-slate-500" />
                   )}
-                </div>
-                <div className="absolute -bottom-3 -right-3 bg-blue-600 text-white font-black text-xl px-4 py-1 rounded-xl shadow-lg border border-blue-400">
-                  ★ {currentPlayer.skillRating}
                 </div>
               </div>
 
-              <h3 className="text-3xl font-black uppercase text-center tracking-wide text-white mb-1">
+              <h3 className="text-4xl font-black uppercase text-center tracking-wide text-white mb-1">
                 {currentPlayer.name}
               </h3>
               <p className="text-sm font-bold text-blue-400 uppercase tracking-widest font-mono">
                 {currentPlayer.falaLeague === "Yes" ? "✦ FALA LEAGUE PLAYER ✦" : "Tournament Draft Pool"}
               </p>
+              
+              <div className="flex items-center gap-2 mt-3 bg-blue-600/30 border border-blue-500/40 px-4 py-1.5 rounded-full text-blue-300 text-sm font-black uppercase tracking-wide">
+                ★ Overall Skill Rating: {currentPlayer.skillRating}
+              </div>
             </div>
 
             {/* Right Column: Individual Sport Ratings & Info */}
@@ -492,14 +493,14 @@ export const LiveScreen: React.FC<LiveScreenProps> = ({ players, teams, state })
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto w-full">
-            {/* Left Column: Player Card (5 Columns) */}
-            <div className="lg:col-span-5 flex flex-col bg-slate-900/60 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl">
+            {/* Left Column: Player Card (6 Columns) */}
+            <div className="lg:col-span-6 flex flex-col bg-slate-900/60 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl">
               {/* Player Main Bio */}
               <div className="relative bg-gradient-to-b from-blue-950 to-slate-900 p-6 flex flex-col items-center border-b border-slate-800">
                 
                 {/* Photo Frame */}
                 <div className="relative mb-6">
-                  <div className="w-72 h-72 md:w-80 md:h-80 rounded-2xl border-4 border-blue-500/50 overflow-hidden bg-slate-855 shadow-2xl flex items-center justify-center">
+                  <div className="w-80 h-80 md:w-[420px] md:h-[420px] rounded-2xl border-4 border-blue-500/50 overflow-hidden bg-slate-855 shadow-2xl flex items-center justify-center">
                     {currentPlayer.photoUrl && !imageError[currentPlayer.id] ? (
                       <img
                         src={currentPlayer.photoUrl}
@@ -511,20 +512,21 @@ export const LiveScreen: React.FC<LiveScreenProps> = ({ players, teams, state })
                         }}
                       />
                     ) : (
-                      <User className="w-24 h-24 text-slate-500" />
+                      <User className="w-28 h-28 text-slate-500" />
                     )}
-                  </div>
-                  <div className="absolute -bottom-3 -right-3 bg-blue-600 text-white font-black text-xl px-4 py-1 rounded-xl shadow-lg border border-blue-400">
-                    ★ {currentPlayer.skillRating}
                   </div>
                 </div>
 
-                <h3 className="text-3xl font-black uppercase text-center tracking-wide text-white mb-1">
+                <h3 className="text-4xl font-black uppercase text-center tracking-wide text-white mb-1">
                   {currentPlayer.name}
                 </h3>
                 <p className="text-sm font-bold text-blue-400 uppercase tracking-widest font-mono">
                   {currentPlayer.falaLeague === "Yes" ? "✦ FALA LEAGUE PLAYER ✦" : "Tournament Draft Pool"}
                 </p>
+                
+                <div className="flex items-center gap-2 mt-3 bg-blue-600/30 border border-blue-500/40 px-4 py-1.5 rounded-full text-blue-300 text-sm font-black uppercase tracking-wide">
+                  ★ Overall Skill Rating: {currentPlayer.skillRating}
+                </div>
               </div>
 
               {/* Individual Sport Ratings */}
@@ -544,8 +546,8 @@ export const LiveScreen: React.FC<LiveScreenProps> = ({ players, teams, state })
               </div>
             </div>
 
-            {/* Right Column: Bid Stats (7 Columns) */}
-            <div className="lg:col-span-7 flex flex-col justify-center gap-6">
+            {/* Right Column: Bid Stats (6 Columns) */}
+            <div className="lg:col-span-6 flex flex-col justify-center gap-6">
               
               {/* Bid Status Panel */}
               <div className="bg-slate-900 border-2 border-slate-800 rounded-3xl p-8 shadow-2xl flex flex-col items-center justify-center text-center relative overflow-hidden min-h-[350px]">
@@ -630,64 +632,8 @@ export const LiveScreen: React.FC<LiveScreenProps> = ({ players, teams, state })
           Welcome Employees & Competitors
         </h3>
         <p className="text-slate-400 max-w-xl text-center mb-8 text-base">
-          The auction block is currently empty. The administrator will select the next player to initiate active digital bidding shortly. Check live budgets below!
+          The auction block is currently empty. The administrator will select the next player to initiate active digital bidding shortly.
         </p>
-
-        {/* Team budgets grid */}
-        <div className="w-full max-w-4xl">
-          <h4 className="text-sm font-black text-slate-400 uppercase tracking-[0.2em] mb-4 text-center">
-            PARTICIPATING TEAMS & CHIP PURSES
-          </h4>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-            {teams.map((t) => {
-              // Count how many players this team has drafted
-              const rosterCount = players.filter((p) => p.soldTo === t.id).length;
-              return (
-                <div
-                  key={t.id}
-                  className="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 text-center flex flex-col justify-between hover:border-slate-700 transition-all duration-300 shadow-xl"
-                >
-                  <div className="flex flex-col items-center">
-                    <div
-                      className="w-12 h-12 rounded-full flex items-center justify-center text-white text-lg font-black mb-3 border-2"
-                      style={{
-                        borderColor: t.color,
-                        backgroundColor: `${t.color}22`,
-                      }}
-                    >
-                      {t.name.slice(0, 2).toUpperCase()}
-                    </div>
-                    <h5 className="font-bold text-white text-base uppercase truncate max-w-full">
-                      {t.name}
-                    </h5>
-                    
-                    {/* Owner display */}
-                    <div className="text-[11px] text-slate-400 mt-1">
-                      <span className="text-slate-500 uppercase">Owner:</span> {t.owner || "Unassigned"}
-                    </div>
-                    {t.coOwner && (
-                      <div className="text-[11px] text-slate-400">
-                        <span className="text-slate-500 uppercase">Co-Owner:</span> {t.coOwner}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="mt-4 pt-3 border-t border-slate-850">
-                    <div className="text-xs text-slate-400 uppercase tracking-widest block mb-1">
-                      Available Budget
-                    </div>
-                    <div className="text-lg font-black text-yellow-400 font-mono">
-                      {formatChips(t.budget)}
-                    </div>
-                    <span className="inline-block mt-1 bg-slate-850 text-slate-300 font-bold text-[10px] px-2.5 py-0.5 rounded-full uppercase">
-                      {rosterCount} Players drafted
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
       </div>
 
       {/* Footer */}

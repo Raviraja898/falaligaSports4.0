@@ -1,6 +1,7 @@
 export interface Player {
   id: string;
   name: string;
+  gender: string;
   role: string;
   badminton: number;
   carroms: number;

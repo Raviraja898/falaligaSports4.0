@@ -53,6 +53,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ players, teams, state, o
 
   // Auto-Pilot & Auto-Bidding client simulation state
   const [autoBidSpeed, setAutoBidSpeed] = useState<number>(2000); // 2 seconds between bids
+  const [isAutoBiddingEnabled, setIsAutoBiddingEnabled] = useState(true);
   const [isSimulatingBids, setIsSimulatingBids] = useState(false);
   const [isAutoPilotMode, setIsAutoPilotMode] = useState(() => {
     return localStorage.getItem("isAutoPilotMode") === "true";
@@ -157,11 +158,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ players, teams, state, o
       return () => clearTimeout(timer);
     }
 
-    // Force bidding simulation to run
-    if (state.status === "bidding" && !isSimulatingBids) {
+    // Force bidding simulation to run if Auto-Pilot is active OR Auto-Bidding Control is toggled ON
+    if (state.status === "bidding" && !isSimulatingBids && (isAutoPilotMode || isAutoBiddingEnabled)) {
       setIsSimulatingBids(true);
     }
-  }, [isAutoPilotMode, state.status, state.currentPlayerId, availablePlayers.length]);
+  }, [isAutoPilotMode, isAutoBiddingEnabled, isSimulatingBids, state.status, state.currentPlayerId, availablePlayers.length]);
 
   // Auto Bidding Simulator interval hook
   useEffect(() => {
@@ -612,6 +613,60 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ players, teams, state, o
               </div>
             </div>
 
+            {/* 🤖 Permanent Master Auto-Bidding Control Option (Visible by Default) */}
+            <div className="bg-slate-900 text-white border-2 border-blue-600 p-5 rounded-3xl flex flex-col sm:flex-row justify-between items-center shadow-lg mb-6 gap-4 animate-fade-in">
+              <div className="flex-1">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-black uppercase tracking-wider text-blue-400 flex items-center gap-1.5">
+                    🤖 Auto-Bidding Control Option
+                  </span>
+                  <span className={`w-3 h-3 rounded-full ${isAutoBiddingEnabled ? "bg-emerald-500 animate-ping" : "bg-slate-700"}`} />
+                </div>
+                <p className="text-[11px] text-slate-300 mt-2 leading-relaxed">
+                  Toggle automatic bidding. When enabled (ON by default), the draft simulator automatically places matching bids on behalf of participating teams as soon as any player is nominated.
+                </p>
+              </div>
+              <div className="flex items-center gap-2.5 shrink-0 w-full sm:w-auto">
+                <select
+                  className="bg-slate-950 border border-slate-800 text-white text-[11px] px-3 py-2.5 rounded-xl font-bold focus:outline-none"
+                  value={autoBidSpeed}
+                  onChange={(e) => setAutoBidSpeed(Number(e.target.value))}
+                >
+                  <option value={1000}>Speed: Fast (1s)</option>
+                  <option value={2000}>Speed: Medium (2s)</option>
+                  <option value={4000}>Speed: Slow (4s)</option>
+                </select>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const nextVal = !isAutoBiddingEnabled;
+                    setIsAutoBiddingEnabled(nextVal);
+                    if (state.status === "bidding") {
+                      setIsSimulatingBids(nextVal);
+                    }
+                  }}
+                  disabled={isAutoPilotMode}
+                  className={`flex-1 sm:flex-initial py-2.5 px-5 rounded-xl text-xs font-black uppercase tracking-wider shadow transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                    isAutoPilotMode
+                      ? "bg-slate-800 text-slate-500 cursor-not-allowed"
+                      : isAutoBiddingEnabled
+                      ? "bg-red-500 hover:bg-red-600 text-white animate-pulse"
+                      : "bg-blue-600 hover:bg-blue-700 text-white"
+                  }`}
+                >
+                  {isAutoBiddingEnabled ? (
+                    <>
+                      <Pause className="w-4 h-4" /> Pause Auto Bidding
+                    </>
+                  ) : (
+                    <>
+                      <Play className="w-4 h-4" /> Resume Auto Bidding
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+
             
             {isShuffling && shuffledPlayer ? (
               <div className="bg-slate-900 border border-slate-800 text-white rounded-3xl p-8 shadow-xl text-center relative overflow-hidden flex flex-col items-center justify-center min-h-[400px]">
@@ -724,58 +779,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ players, teams, state, o
                   </div>
                 </div>
 
-                {/* ⚡ PROMINENT FAST DRAFT CONTROLS (AUTO BIDDING & SKIP) */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                  {/* Auto Bidding Box */}
-                  <div className="bg-slate-900 text-white border-2 border-blue-600 p-5 rounded-2xl flex flex-col justify-between shadow-lg">
-                    <div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-black uppercase tracking-wider text-blue-400 flex items-center gap-1.5">
-                          🤖 Auto-Bidding Control Option
-                        </span>
-                        <span className={`w-3 h-3 rounded-full ${isSimulatingBids ? "bg-emerald-500 animate-ping" : "bg-slate-700"}`} />
-                      </div>
-                      <p className="text-[11px] text-slate-300 mt-2 leading-relaxed">
-                        Starts the automatic draft bidder. Teams will bid against each other automatically using real balances.
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2.5 mt-5">
-                      <select
-                        className="bg-slate-950 border border-slate-800 text-white text-[11px] px-3 py-2.5 rounded-xl font-bold focus:outline-none"
-                        value={autoBidSpeed}
-                        onChange={(e) => setAutoBidSpeed(Number(e.target.value))}
-                      >
-                        <option value={1000}>Fast (1s)</option>
-                        <option value={2000}>Medium (2s)</option>
-                        <option value={4000}>Slow (4s)</option>
-                      </select>
-                      <button
-                        onClick={() => setIsSimulatingBids(!isSimulatingBids)}
-                        disabled={isAutoPilotMode}
-                        className={`flex-1 py-2.5 px-4 rounded-xl text-xs font-black uppercase tracking-wider shadow transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                          isAutoPilotMode
-                            ? "bg-slate-800 text-slate-500 cursor-not-allowed"
-                            : isSimulatingBids
-                            ? "bg-red-500 hover:bg-red-600 text-white animate-pulse"
-                            : "bg-blue-600 hover:bg-blue-700 text-white"
-                        }`}
-                      >
-                        {isSimulatingBids ? (
-                          <>
-                            <Pause className="w-4 h-4" /> Stop Auto Bidding
-                          </>
-                        ) : (
-                          <>
-                            <Play className="w-4 h-4" /> Start Auto Bidding
-                          </>
-                        )}
-                      </button>
-                    </div>
-                  </div>
-
+                {/* ⚡ PROMINENT FAST DRAFT CONTROLS (SKIP PLAYER) */}
+                <div className="mb-6">
                   {/* Skip Player Box */}
-                  <div className="bg-amber-50/80 border-2 border-amber-300 p-5 rounded-2xl flex flex-col justify-between shadow-md">
-                    <div>
+                  <div className="bg-amber-50/80 border-2 border-amber-300 p-5 rounded-2xl flex flex-col sm:flex-row justify-between items-center shadow-md gap-4">
+                    <div className="flex-1">
                       <span className="text-xs font-black uppercase tracking-wider text-amber-800 flex items-center gap-1.5">
                         ⏭️ Skip Player Option
                       </span>
@@ -784,8 +792,9 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ players, teams, state, o
                       </p>
                     </div>
                     <button
+                      type="button"
                       onClick={handleSkipBidding}
-                      className="w-full mt-5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-black uppercase py-3 rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+                      className="w-full sm:w-auto shrink-0 bg-amber-600 hover:bg-amber-700 text-white text-xs font-black uppercase px-6 py-3.5 rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
                     >
                       ⏭️ Skip Player (Display Last)
                     </button>
@@ -1360,6 +1369,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ players, teams, state, o
               onClick={() => {
                 setEditingPlayer({
                   name: "",
+                  gender: "Male",
                   role: "",
                   badminton: 50,
                   carroms: 50,
@@ -1420,9 +1430,18 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ players, teams, state, o
                             <h4 className="font-extrabold text-sm text-slate-900 uppercase truncate">
                               {p.name}
                             </h4>
-                            <span className="text-[10px] font-bold text-blue-600 block">
-                              ★ Rating: {p.skillRating}
-                            </span>
+                            <div className="flex items-center gap-1.5 mt-0.5">
+                              <span className="text-[10px] font-bold text-blue-600 block">
+                                ★ Rating: {p.skillRating}
+                              </span>
+                              <span className={`text-[8px] font-black px-1 py-0.2 rounded uppercase ${
+                                p.gender === "Female" 
+                                  ? "bg-pink-100 text-pink-700 border border-pink-200" 
+                                  : "bg-slate-100 text-slate-600 border border-slate-200"
+                              }`}>
+                                {p.gender}
+                              </span>
+                            </div>
                           </div>
                         </div>
 
@@ -1521,6 +1540,19 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ players, teams, state, o
                       >
                         <option value="No">No</option>
                         <option value="Yes">Yes</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-xs font-bold text-slate-600 uppercase block mb-1">
+                        Gender
+                      </label>
+                      <select
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none"
+                        value={editingPlayer?.gender || "Male"}
+                        onChange={(e) => setEditingPlayer({ ...editingPlayer, gender: e.target.value })}
+                      >
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
                       </select>
                     </div>
                   </div>
