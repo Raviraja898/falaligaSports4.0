@@ -3,7 +3,7 @@ import { Player } from './types';
 export const INITIAL_PLAYERS: Player[] = [
   {
     id: "p1",
-    name: "Kumuda",
+    name: "Kumuda Bopaiah",
     role: "",
     badminton: 70,
     carroms: 0,
@@ -750,7 +750,7 @@ export const INITIAL_PLAYERS: Player[] = [
     tableTennis: 40,
     skillRating: 16,
     falaLeague: "No",
-    photoUrl: "https://falabella-my.sharepoint.com/personal/kumuda_bopaiah_falabella_cl1/Documents/Aplicaciones/Microsoft%20Forms/Register%20for%20participating%20in%20Falaliga%2040/Question/Image_Nandan%20R.jpeg",
+    photoUrl: "https://falabella-my.sharepoint.com/personal/kumuda_bopaiah_falabella_cl1/Documents/Aplicaciones/Microsoft%20Forms/Register%20for%20participating%20in%20Falaliga%2040/Question/Image%20Nandan%20R.jpeg",
     isSold: false,
     soldTo: null,
     soldAmount: null,
@@ -1317,7 +1317,7 @@ export const INITIAL_PLAYERS: Player[] = [
   },
   {
     id: "p74",
-    name: "So",
+    name: "Sourav Kumar",
     role: "",
     badminton: 40,
     carroms: 70,
