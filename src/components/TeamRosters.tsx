@@ -260,8 +260,8 @@ export const TeamRosters: React.FC<TeamRostersProps> = ({ players, teams }) => {
                   <thead>
                     <tr className="border-b border-slate-800 text-slate-400 uppercase font-black text-[10px] tracking-wider bg-slate-950/30">
                       <th className="py-3 px-5">Team Franchise</th>
-                      <th className="py-3 px-4 text-center">Male players</th>
-                      <th className="py-3 px-4 text-center">Female players</th>
+                      <th className="py-3 px-4 text-center">Drafted Males</th>
+                      <th className="py-3 px-4 text-center">Drafted Females</th>
                       <th className="py-3 px-4 text-center">Total Squad</th>
                       <th className="py-3 px-4 text-right">Total Spent</th>
                       <th className="py-3 px-5 text-right">Remaining Wallet</th>
@@ -486,7 +486,7 @@ export const TeamRosters: React.FC<TeamRostersProps> = ({ players, teams }) => {
                         <img
                           src={ownerPlayer.photoUrl}
                           alt={ownerPlayer.name}
-                          className="w-full h-full object-contain"
+                          className="w-full h-full object-cover"
                           referrerPolicy="no-referrer"
                         />
                       ) : (
@@ -519,7 +519,7 @@ export const TeamRosters: React.FC<TeamRostersProps> = ({ players, teams }) => {
                         <img
                           src={coOwnerPlayer.photoUrl}
                           alt={coOwnerPlayer.name}
-                          className="w-full h-full object-contain"
+                          className="w-full h-full object-cover"
                           referrerPolicy="no-referrer"
                         />
                       ) : (
@@ -576,7 +576,7 @@ export const TeamRosters: React.FC<TeamRostersProps> = ({ players, teams }) => {
                           <img
                             src={p.photoUrl}
                             alt={p.name}
-                            className="w-full h-full object-contain"
+                            className="w-full h-full object-cover"
                             referrerPolicy="no-referrer"
                           />
                         ) : (

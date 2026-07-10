@@ -2603,6 +2603,25 @@ export const INITIAL_PLAYERS: Player[] = [
     "soldAmount": null,
     "isUnsold": false,
     "isOwnerOrCoOwner": false
+  },
+  {
+    "id": "p138",
+    "name": "Vigneshwar Raj",
+    "gender": "Male",
+    "role": "",
+    "badminton": 40,
+    "carroms": 40,
+    "cricket": 40,
+    "football": 40,
+    "tableTennis": 40,
+    "skillRating": 60,
+    "falaLeague": "No",
+    "photoUrl": "",
+    "isSold": false,
+    "soldTo": null,
+    "soldAmount": null,
+    "isUnsold": false,
+    "isOwnerOrCoOwner": false
   }
 ];
 
