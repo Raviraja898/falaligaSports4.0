@@ -930,7 +930,7 @@ export const INITIAL_PLAYERS: Player[] = [
     "soldTo": null,
     "soldAmount": null,
     "isUnsold": false,
-    "isOwnerOrCoOwner": false
+    "isOwnerOrCoOwner": true
   },
   {
     "id": "p50",
@@ -1139,7 +1139,7 @@ export const INITIAL_PLAYERS: Player[] = [
     "soldTo": null,
     "soldAmount": null,
     "isUnsold": false,
-    "isOwnerOrCoOwner": false
+    "isOwnerOrCoOwner": true
   },
   {
     "id": "p61",
@@ -1538,7 +1538,7 @@ export const INITIAL_PLAYERS: Player[] = [
     "soldTo": null,
     "soldAmount": null,
     "isUnsold": false,
-    "isOwnerOrCoOwner": false
+    "isOwnerOrCoOwner": true
   },
   {
     "id": "p82",
@@ -2279,7 +2279,7 @@ export const INITIAL_PLAYERS: Player[] = [
     "soldTo": null,
     "soldAmount": null,
     "isUnsold": false,
-    "isOwnerOrCoOwner": false
+    "isOwnerOrCoOwner": true
   },
   {
     "id": "p121",
@@ -2298,7 +2298,7 @@ export const INITIAL_PLAYERS: Player[] = [
     "soldTo": null,
     "soldAmount": null,
     "isUnsold": false,
-    "isOwnerOrCoOwner": false
+    "isOwnerOrCoOwner": true
   },
   {
     "id": "p122",
@@ -2317,7 +2317,7 @@ export const INITIAL_PLAYERS: Player[] = [
     "soldTo": null,
     "soldAmount": null,
     "isUnsold": false,
-    "isOwnerOrCoOwner": false
+    "isOwnerOrCoOwner": true
   },
   {
     "id": "p123",
@@ -2336,7 +2336,7 @@ export const INITIAL_PLAYERS: Player[] = [
     "soldTo": null,
     "soldAmount": null,
     "isUnsold": false,
-    "isOwnerOrCoOwner": false
+    "isOwnerOrCoOwner": true
   },
   {
     "id": "p124",
@@ -2355,7 +2355,7 @@ export const INITIAL_PLAYERS: Player[] = [
     "soldTo": null,
     "soldAmount": null,
     "isUnsold": false,
-    "isOwnerOrCoOwner": false
+    "isOwnerOrCoOwner": true
   },
   {
     "id": "p125",
@@ -2374,7 +2374,7 @@ export const INITIAL_PLAYERS: Player[] = [
     "soldTo": null,
     "soldAmount": null,
     "isUnsold": false,
-    "isOwnerOrCoOwner": false
+    "isOwnerOrCoOwner": true
   },
   {
     "id": "p126",
@@ -2393,7 +2393,7 @@ export const INITIAL_PLAYERS: Player[] = [
     "soldTo": null,
     "soldAmount": null,
     "isUnsold": false,
-    "isOwnerOrCoOwner": false
+    "isOwnerOrCoOwner": true
   },
   {
     "id": "p127",
@@ -2412,7 +2412,7 @@ export const INITIAL_PLAYERS: Player[] = [
     "soldTo": null,
     "soldAmount": null,
     "isUnsold": false,
-    "isOwnerOrCoOwner": false
+    "isOwnerOrCoOwner": true
   },
   {
     "id": "p128",
@@ -2431,7 +2431,7 @@ export const INITIAL_PLAYERS: Player[] = [
     "soldTo": null,
     "soldAmount": null,
     "isUnsold": false,
-    "isOwnerOrCoOwner": false
+    "isOwnerOrCoOwner": true
   },
   {
     "id": "p129",
@@ -2450,7 +2450,7 @@ export const INITIAL_PLAYERS: Player[] = [
     "soldTo": null,
     "soldAmount": null,
     "isUnsold": false,
-    "isOwnerOrCoOwner": false
+    "isOwnerOrCoOwner": true
   },
   {
     "id": "p130",
@@ -2469,7 +2469,7 @@ export const INITIAL_PLAYERS: Player[] = [
     "soldTo": null,
     "soldAmount": null,
     "isUnsold": false,
-    "isOwnerOrCoOwner": false
+    "isOwnerOrCoOwner": true
   },
   {
     "id": "p131",
@@ -2488,7 +2488,7 @@ export const INITIAL_PLAYERS: Player[] = [
     "soldTo": null,
     "soldAmount": null,
     "isUnsold": false,
-    "isOwnerOrCoOwner": false
+    "isOwnerOrCoOwner": true
   },
   {
     "id": "p132",
@@ -2507,7 +2507,7 @@ export const INITIAL_PLAYERS: Player[] = [
     "soldTo": null,
     "soldAmount": null,
     "isUnsold": false,
-    "isOwnerOrCoOwner": false
+    "isOwnerOrCoOwner": true
   },
   {
     "id": "p133",
@@ -2607,12 +2607,12 @@ export const INITIAL_PLAYERS: Player[] = [
 ];
 
 export const INITIAL_TEAMS = [
-  { id: "t1", name: "Elite Eagle", owner: null, coOwner: null, budget: 1000000, color: "#ef4444" },
-  { id: "t2", name: "Ordervengers", owner: null, coOwner: null, budget: 1000000, color: "#3b82f6" },
-  { id: "t3", name: "The Load Balancers", owner: null, coOwner: null, budget: 1000000, color: "#10b981" },
-  { id: "t4", name: "The Groundbreakers", owner: null, coOwner: null, budget: 1000000, color: "#f59e0b" },
-  { id: "t5", name: "Synergy Slayers", owner: null, coOwner: null, budget: 1000000, color: "#8b5cf6" },
-  { id: "t6", name: "Falcon Fury", owner: null, coOwner: null, budget: 1000000, color: "#ec4899" },
-  { id: "t7", name: "Ctl Alt Defeat", owner: null, coOwner: null, budget: 1000000, color: "#06b6d4" },
-  { id: "t8", name: "EKAM", owner: null, coOwner: null, budget: 1000000, color: "#14b8a6" }
+  { id: "t1", name: "Elite Eagle", owner: "Satheesh Kumar K", coOwner: "Tarani Prasad Pani", budget: 1000000, color: "#ef4444" },
+  { id: "t2", name: "Ordervengers", owner: "Ganesh Jadi", coOwner: "Kiran A", budget: 1000000, color: "#3b82f6" },
+  { id: "t3", name: "The Load Balancers", owner: "Vijay Anantpur", coOwner: "Iliyas Mulla", budget: 1000000, color: "#10b981" },
+  { id: "t4", name: "The Groundbreakers", owner: "Naveen Vempati", coOwner: "Shashank Poojary", budget: 1000000, color: "#f59e0b" },
+  { id: "t5", name: "Synergy Slayers", owner: "Yashaswy Alubaka", coOwner: "Yash Pendse", budget: 1000000, color: "#8b5cf6" },
+  { id: "t6", name: "Falcon Fury", owner: "Sharath HG", coOwner: "Ganesan M", budget: 1000000, color: "#ec4899" },
+  { id: "t7", name: "Ctl Alt Defeat", owner: "Niranjan Kumar Singh", coOwner: "Kartik Kapri", budget: 1000000, color: "#06b6d4" },
+  { id: "t8", name: "EKAM", owner: "Prathiksha Jakkannavar", coOwner: "Saharsh Pandey", budget: 1000000, color: "#14b8a6" }
 ];
