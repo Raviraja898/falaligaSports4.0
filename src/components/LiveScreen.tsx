@@ -172,7 +172,7 @@ export const LiveScreen: React.FC<LiveScreenProps> = ({
                     <img
                       src={soldPlayer.photoUrl}
                       alt={soldPlayer.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                       referrerPolicy="no-referrer"
                       onError={() => {
                         setImageError((prev) => ({
@@ -366,7 +366,7 @@ export const LiveScreen: React.FC<LiveScreenProps> = ({
                     <img
                       src={shuffledPlayer.photoUrl}
                       alt={shuffledPlayer.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                       referrerPolicy="no-referrer"
                       onError={() => {
                         setImageError((prev) => ({
@@ -414,7 +414,7 @@ export const LiveScreen: React.FC<LiveScreenProps> = ({
     return (
       <div className="w-full min-h-[85vh] bg-slate-950 text-white p-6 md:p-8 flex flex-col justify-between">
         {/* Header Ribbon */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-4 mb-6 gap-4">
+        {/* <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-4 mb-6 gap-4">
           <div>
             <span className="bg-blue-500 text-white font-extrabold text-xs px-3 py-1 rounded uppercase tracking-widest">
               Live Auction Block
@@ -429,7 +429,7 @@ export const LiveScreen: React.FC<LiveScreenProps> = ({
               Bidding Open
             </span>
           </div>
-        </div>
+        </div> */}
 
         {/* Core Screen Division */}
         {!state.currentBidderId ? (
@@ -443,7 +443,7 @@ export const LiveScreen: React.FC<LiveScreenProps> = ({
                     <img
                       src={currentPlayer.photoUrl}
                       alt={currentPlayer.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                       referrerPolicy="no-referrer"
                       onError={() => {
                         setImageError((prev) => ({
@@ -530,7 +530,7 @@ export const LiveScreen: React.FC<LiveScreenProps> = ({
                       <img
                         src={currentPlayer.photoUrl}
                         alt={currentPlayer.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain"
                         referrerPolicy="no-referrer"
                         onError={() => {
                           setImageError((prev) => ({

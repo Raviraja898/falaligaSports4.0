@@ -687,7 +687,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ players, teams, state, o
                   <div className="bg-slate-950 border border-slate-800 rounded-2xl p-5 shadow-inner flex items-center gap-4 justify-start text-left">
                     <div className="w-16 h-16 rounded-xl bg-slate-800 overflow-hidden shrink-0 border border-slate-700 flex items-center justify-center">
                       {shuffledPlayer.photoUrl ? (
-                        <img src={shuffledPlayer.photoUrl} alt={shuffledPlayer.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                        <img src={shuffledPlayer.photoUrl} alt={shuffledPlayer.name} className="w-full h-full object-contain" referrerPolicy="no-referrer" />
                       ) : (
                         <User className="w-8 h-8 text-slate-500" />
                       )}
@@ -717,7 +717,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ players, teams, state, o
                       <img
                         src={currentPlayer.photoUrl}
                         alt={currentPlayer.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain"
                         referrerPolicy="no-referrer"
                       />
                     ) : (
@@ -983,7 +983,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ players, teams, state, o
                           <div className="flex items-center gap-3 truncate">
                             <div className="w-9 h-9 rounded-lg bg-slate-200 flex items-center justify-center font-bold text-[10px] text-slate-500 overflow-hidden shrink-0 uppercase border border-slate-100">
                               {p.photoUrl ? (
-                                <img src={p.photoUrl} alt={p.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                                <img src={p.photoUrl} alt={p.name} className="w-full h-full object-contain" referrerPolicy="no-referrer" />
                               ) : (
                                 p.name.slice(0, 2)
                               )}
@@ -1091,7 +1091,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ players, teams, state, o
                           <img
                             src={p.photoUrl}
                             alt={p.name}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-contain"
                             referrerPolicy="no-referrer"
                           />
                         ) : (
@@ -1419,7 +1419,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ players, teams, state, o
                               <img
                                 src={p.photoUrl}
                                 alt={p.name}
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-contain"
                                 referrerPolicy="no-referrer"
                               />
                             ) : (

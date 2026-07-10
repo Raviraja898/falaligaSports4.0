@@ -486,7 +486,7 @@ export const TeamRosters: React.FC<TeamRostersProps> = ({ players, teams }) => {
                         <img
                           src={ownerPlayer.photoUrl}
                           alt={ownerPlayer.name}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-contain"
                           referrerPolicy="no-referrer"
                         />
                       ) : (
@@ -519,7 +519,7 @@ export const TeamRosters: React.FC<TeamRostersProps> = ({ players, teams }) => {
                         <img
                           src={coOwnerPlayer.photoUrl}
                           alt={coOwnerPlayer.name}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-contain"
                           referrerPolicy="no-referrer"
                         />
                       ) : (
@@ -576,7 +576,7 @@ export const TeamRosters: React.FC<TeamRostersProps> = ({ players, teams }) => {
                           <img
                             src={p.photoUrl}
                             alt={p.name}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-contain"
                             referrerPolicy="no-referrer"
                           />
                         ) : (
