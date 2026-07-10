@@ -8,7 +8,9 @@ import { Monitor, ShieldAlert, Users, RefreshCw } from "lucide-react";
 
 export default function App() {
   const [data, setData] = useState<AuctionData | null>(null);
-  const [activeScreen, setActiveScreen] = useState<"live" | "admin" | "rosters">("live");
+  const [activeScreen, setActiveScreen] = useState<
+    "live" | "admin" | "rosters"
+  >("live");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -70,22 +72,20 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col justify-between selection:bg-blue-600 selection:text-white">
-      
       {/* Dynamic Header */}
-      <Header 
+      <Header
         subtitle={
-          activeScreen === "live" 
-            ? "LIVE DRAFT DISPLAY" 
-            : activeScreen === "admin" 
-            ? "ADMINISTRATOR COMMAND PANEL" 
-            : "TEAM OWNERS REVIEW BOARD"
-        } 
+          activeScreen === "live"
+            ? "LIVE DRAFT DISPLAY"
+            : activeScreen === "admin"
+              ? "ADMINISTRATOR COMMAND PANEL"
+              : "TEAM OWNERS REVIEW BOARD"
+        }
       />
 
       {/* Screen Selection Subheader */}
       <div className="bg-slate-900 border-b border-slate-800 px-6 py-3 shadow-inner">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
-          
           {/* Quick Tabs */}
           <div className="flex bg-slate-950 p-1.5 rounded-xl border border-slate-800 gap-1 w-full sm:w-auto">
             <button
@@ -141,11 +141,11 @@ export default function App() {
           <LiveScreen players={players} teams={teams} state={state} />
         )}
         {activeScreen === "admin" && (
-          <AdminPanel 
-            players={players} 
-            teams={teams} 
-            state={state} 
-            onRefreshState={fetchState} 
+          <AdminPanel
+            players={players}
+            teams={teams}
+            state={state}
+            onRefreshState={fetchState}
           />
         )}
         {activeScreen === "rosters" && (
@@ -155,7 +155,7 @@ export default function App() {
 
       {/* Small Legal Footer */}
       <div className="bg-slate-900 border-t border-slate-850 py-4 px-6 text-center text-[10px] text-slate-500 uppercase tracking-widest font-mono">
-        Falaliga Auction 4.0 Applet • Real-Time Digital Transcriber • Port 3000 Ingress
+        Falaliga Auction 4.0 Applet • Real-Time Digital Transcriber
       </div>
     </div>
   );

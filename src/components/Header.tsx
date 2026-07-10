@@ -20,7 +20,7 @@ export const Header: React.FC<{ subtitle?: string }> = ({ subtitle }) => {
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-2xl md:text-3xl font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-blue-200 uppercase">
-                FALALIGA AUCTION 4.0
+                FALALIGA 4.0 - AUCTION
               </h1>
             </div>
             <p className="text-[10px] font-bold tracking-[0.3em] text-blue-400/80 uppercase">
